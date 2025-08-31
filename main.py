@@ -255,7 +255,7 @@ class MainWindow(QMainWindow):
         # Загрузка изображения - используем относительный путь
         try:
             # Получаем путь к директории скрипта
-            script_dir = Path(__file__).parent.absolute()
+            script_dir = os.path.dirname(os.path.abspath(__file__))
             logo_path = os.path.join(script_dir, "img", "logo.png")
 
             # Проверяем существование файла
