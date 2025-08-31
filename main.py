@@ -2,6 +2,7 @@ import sys
 import subprocess
 import threading
 import os
+from PyQt6 import uic
 from pathlib import Path
 from PyQt6.QtWidgets import (
     QApplication,
@@ -87,6 +88,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.selected_file = None
+        uic.loadUi("main.ui", self)
         self.initUI()
         self.console_window = None
         self.process = None
@@ -246,47 +248,47 @@ class MainWindow(QMainWindow):
         # right_layout.addWidget(image_title)
 
         # Изображение
-        image_label = QLabel()
-        image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        image_label.setStyleSheet(
+        # image_label = QLabel()
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.image_label.setStyleSheet(
             "border: 2px dashed #bdc3c7; border-radius: 8px; min-height: 300px;"
         )
 
-        # Загрузка изображения - используем относительный путь
-        try:
-            # Получаем путь к директории скрипта
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            logo_path = os.path.join(script_dir, "img", "logo.png")
+        # # Загрузка изображения - используем относительный путь
+        # try:
+        #     # Получаем путь к директории скрипта
+        #     script_dir = os.path.dirname(os.path.abspath(__file__))
+        #     logo_path = os.path.join(script_dir, "img", "logo.png")
 
-            # Проверяем существование файла
-            if os.path.exists(logo_path):
-                pixmap = QPixmap(logo_path)
-                if not pixmap.isNull():
-                    # Масштабируем изображение
-                    pixmap = pixmap.scaled(
-                        300,
-                        300,
-                        Qt.AspectRatioMode.KeepAspectRatio,
-                        Qt.TransformationMode.SmoothTransformation,
-                    )
-                    image_label.setPixmap(pixmap)
-                else:
-                    image_label.setText("Ошибка загрузки изображения\n(файл поврежден)")
-                    image_label.setStyleSheet(
-                        "border: 2px dashed #bdc3c7; border-radius: 8px; color: #e74c3c;"
-                    )
-            else:
-                image_label.setText(f"Изображение не найдено\n\n{logo_path}")
-                image_label.setStyleSheet(
-                    "border: 2px dashed #bdc3c7; border-radius: 8px; color: #7f8c8d;"
-                )
-        except Exception as e:
-            image_label.setText(f"Ошибка: {str(e)}")
-            image_label.setStyleSheet(
-                "border: 2px dashed #bdc3c7; border-radius: 8px; color: #e74c3c;"
-            )
+        #     # Проверяем существование файла
+        #     if os.path.exists(logo_path):
+        #         pixmap = QPixmap(logo_path)
+        #         if not pixmap.isNull():
+        #             # Масштабируем изображение
+        #             pixmap = pixmap.scaled(
+        #                 300,
+        #                 300,
+        #                 Qt.AspectRatioMode.KeepAspectRatio,
+        #                 Qt.TransformationMode.SmoothTransformation,
+        #             )
+        #             image_label.setPixmap(pixmap)
+        #         else:
+        #             image_label.setText("Ошибка загрузки изображения\n(файл поврежден)")
+        #             image_label.setStyleSheet(
+        #                 "border: 2px dashed #bdc3c7; border-radius: 8px; color: #e74c3c;"
+        #             )
+        #     else:
+        #         image_label.setText(f"Изображение не найдено\n\n{logo_path}")
+        #         image_label.setStyleSheet(
+        #             "border: 2px dashed #bdc3c7; border-radius: 8px; color: #7f8c8d;"
+        #         )
+        # except Exception as e:
+        #     image_label.setText(f"Ошибка: {str(e)}")
+        #     image_label.setStyleSheet(
+        #         "border: 2px dashed #bdc3c7; border-radius: 8px; color: #e74c3c;"
+        #     )
 
-        right_layout.addWidget(image_label)
+        right_layout.addWidget(self.image_label)
 
         # Добавляем растягивающееся пространство
         right_layout.addStretch()
