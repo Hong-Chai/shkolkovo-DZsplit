@@ -8,8 +8,10 @@
 
 Скачайте во вкладке releases ->
 
-Или по прямой [ссылке](/releases)
-
+Или по прямой ссылке
+```
+https://github.com/Hong-Chai/shkolkovo-DZsplit/releases
+```
 
 
 
