@@ -1,6 +1,11 @@
 # shkolkovo-DZsplit
 Устали делать и сохранять скришоты? Эта программа разрежет рабочие тетради от Школково на отдельные pdf для каждой задачи, что повысит удобство загрузки.
 
+![Демонстрация работы.](img/docs-example.jpg)
+
+> [!WARNING]
+> Программа работает **ТОЛЬКО** с РТ **Математика ЕГЭ и Физика ЕГЭ** в формате `.pdf`, где текст можно выделить мышкой (после графического планшета или с корректным распознаванием текста/OCR). Скрины, фотографии и файлы, экспортированные как «pdf-рисунок» (где текст не выделяется), **НЕ поддерживаются**.
+
 
 ## Инструкции по использованию
 
@@ -17,16 +22,28 @@ https://github.com/Hong-Chai/shkolkovo-DZsplit/releases
 
 ### Установка локально (для остальных OS)
 
-1. Убедитесь, что в вашей системе установлен Python 3.13+.
+1. Убедитесь, что в вашей системе установлен [Python 3.10+](https://www.python.org/downloads/).
 
 2. Клонируйте репозиторий или загрузите исходный код.
+    ```bash
+    git clone https://github.com/Hong-Chai/shkolkovo-DZsplit.git
+    cd shkolkovo-DZsplit
+    ```
+3. Создайте виртуальное окружение:
+    ```bash
+    # On macOS/Linux
+    python3 -m venv venv
+    source venv/bin/activate
 
-3. Установите requirements:
-```
-pip install -r requirements.txt
-```
-4. Чтобы запустить игру, перейдите в каталог проекта и выполните:
-
-```
-python main.py
-```
+    # On Windows
+    python -m venv venv
+    venv\Scripts\activate
+    ```
+4. Установите requirements:
+    ```
+    pip install -r requirements.txt
+    ```
+5. Чтобы запустить приложение, перейдите в каталог проекта и выполните:
+    ```
+    python main.py
+    ```

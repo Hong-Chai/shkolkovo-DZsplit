@@ -1,1 +1,9 @@
 venv
+
+*.pyc
+__pycache__
+
+dist/
+build/
+
+output-dzSPLIT

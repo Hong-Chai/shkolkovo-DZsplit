@@ -4,13 +4,6 @@ import time
 import shutil
 
 
-def run():
-    for i in range(10):
-        print(f"Выполняется шаг {i+1}/10")
-        time.sleep(1)
-    print("Завершено!")
-
-
 def split_pdf_by_keyword(input_path, output_dir, word):
     """
     Разделяет PDF файл на части по ключевому слову и сохраняет каждую часть в отдельный PDF-файл.
@@ -24,7 +17,6 @@ def split_pdf_by_keyword(input_path, output_dir, word):
     except Exception:
         pass
 
-    # пути и имена
     original_name = os.path.splitext(os.path.basename(input_path))[0]
     os.makedirs(output_dir, exist_ok=True)
 
@@ -32,7 +24,7 @@ def split_pdf_by_keyword(input_path, output_dir, word):
 
     print(f"Обработка {len(doc)} страниц...")
 
-    #  флаги поиска (ТОЛЬКО ТОЧНОЕ СОВПАДЕНИЕ, РЕГИСТР УЧИТЫВАЕТСЯ)
+    # (ТОЛЬКО ТОЧНОЕ СОВПАДЕНИЕ, РЕГИСТР УЧИТЫВАЕТСЯ)
     search_flags = fitz.TEXT_PRESERVE_LIGATURES | fitz.TEXT_PRESERVE_WHITESPACE
 
     file_counter = 0
@@ -53,33 +45,28 @@ def split_pdf_by_keyword(input_path, output_dir, word):
 
         print(f"    Найдено {len(text_instances)} вхождений")
 
-        # Собираем уникальные Y-координаты
         y_positions = sorted({round(rect.y0, 2) for rect in text_instances})
         y_positions = [0.0] + y_positions + [float(page.rect.height)]
 
-        # Обрабатываем каждый сегмент
         for i in range(len(y_positions) - 1):
             y0 = y_positions[i]
             y1 = y_positions[i + 1]
             segment_height = y1 - y0
             page_height = page.rect.height
 
-            # УДАЛЯЕМ СЕГМЕНТЫ МЕНЬШЕ 10% ОТ ВЫСОТЫ СТРАНИЦЫ
-            if segment_height < 0.05 * page_height:
+            # УДАЛЯЕМ СЕГМЕНТЫ МЕНЬШЕ 7% ОТ ВЫСОТЫ СТРАНИЦЫ
+            if segment_height < 0.07 * page_height:
                 print(
-                    f"      Пропущен сегмент {i}: высота {segment_height:.1f} < 5% от {page_height:.1f}"
+                    f"      Пропущен сегмент {i}: высота {segment_height:.1f} < 7% от {page_height:.1f}"
                 )
                 continue
 
-            # Создаем имя файла (с нумерацией с нуля)
             filename = f"{file_counter:03d}-{original_name}.pdf"
             file_path = os.path.join(output_dir, filename)
 
-            # Создаем и сохраняем документ
             part_doc = fitz.open()
             new_page = part_doc.new_page(width=page.rect.width, height=segment_height)
 
-            # Копируем содержимое
             clip_rect = fitz.Rect(0, y0, page.rect.width, y1)
             new_page.show_pdf_page(new_page.rect, doc, page_num, clip=clip_rect)
 
